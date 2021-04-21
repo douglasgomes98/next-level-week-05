@@ -4,6 +4,7 @@ import { convertDurationToTimeString, formatDate } from "../utils";
 import { EpisodeRequest, EpisodeResponse } from "../models";
 import Image from "next/image";
 import styles from "./home.module.scss";
+import Link from "next/link";
 
 type HomeProps = {
   allEpisodes: EpisodeResponse[];
@@ -28,7 +29,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
               />
 
               <div className={styles.episodeDetails}>
-                <a href={`/episodes/${episode.id}`}>{episode.title}</a>
+                <Link href={`/episodes/${episode.id}`}>
+                  <a>{episode.title}</a>
+                </Link>
+
                 <p>{episode.members}</p>
                 <span>{episode.publishedAt}</span>
                 <span>{episode.durationAsString}</span>
@@ -47,12 +51,14 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
         <table cellSpacing={0}>
           <thead>
-            <th></th>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Duração</th>
-            <th></th>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             {allEpisodes.map((episode) => (
@@ -67,7 +73,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   ></Image>
                 </td>
                 <td>
-                  <a href={`/episodes/${episode.id}`}>{episode.title}</a>
+                  <Link href={`/episodes/${episode.id}`}>
+                    <a>{episode.title}</a>
+                  </Link>
                 </td>
                 <td>{episode.members}</td>
                 <td>{episode.publishedAt}</td>
