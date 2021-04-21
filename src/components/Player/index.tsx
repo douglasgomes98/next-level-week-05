@@ -1,10 +1,4 @@
-import { ReactNode } from "react";
-
 import styles from "./styles.module.scss";
-
-interface PlayerProps {
-  children: ReactNode;
-}
 
 function Player() {
   return (

@@ -1,5 +1,116 @@
-import Header from "../components/Header";
+import { GetStaticProps } from "next";
+import api from "../services/api";
+import { convertDurationToTimeString, formatDate } from "../utils";
+import { EpisodeRequest, EpisodeResponse } from "../models";
+import Image from "next/image";
+import styles from "./home.module.scss";
 
-export default function Home() {
-  return <h1>Home</h1>;
+type HomeProps = {
+  allEpisodes: EpisodeResponse[];
+  latestEpisodes: EpisodeResponse[];
+};
+
+export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+  return (
+    <div className={styles.homepage}>
+      <section className={styles.latestEpisodes}>
+        <h2>Últimos lançamentos</h2>
+
+        <ul>
+          {latestEpisodes.map((episode) => (
+            <li key={episode.id}>
+              <Image
+                width={192}
+                height={192}
+                src={episode.thumbnail}
+                alt={episode.title}
+                objectFit="cover"
+              />
+
+              <div className={styles.episodeDetails}>
+                <a href={`/episodes/${episode.id}`}>{episode.title}</a>
+                <p>{episode.members}</p>
+                <span>{episode.publishedAt}</span>
+                <span>{episode.durationAsString}</span>
+              </div>
+
+              <button type="button">
+                <img src="/play-green.svg" alt="Tocar episódio" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.allEpisodes}>
+        <h2>Todos os episódios</h2>
+
+        <table cellSpacing={0}>
+          <thead>
+            <th></th>
+            <th>Podcast</th>
+            <th>Integrantes</th>
+            <th>Data</th>
+            <th>Duração</th>
+            <th></th>
+          </thead>
+          <tbody>
+            {allEpisodes.map((episode) => (
+              <tr key={episode.id}>
+                <td>
+                  <Image
+                    width={120}
+                    height={120}
+                    src={episode.thumbnail}
+                    alt={episode.title}
+                    objectFit="cover"
+                  ></Image>
+                </td>
+                <td>
+                  <a href={`/episodes/${episode.id}`}>{episode.title}</a>
+                </td>
+                <td>{episode.members}</td>
+                <td>{episode.publishedAt}</td>
+                <td>{episode.durationAsString}</td>
+                <td>
+                  <button type="button">
+                    <img src="/play-green.svg" alt="Tocar episódio" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    </div>
+  );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { data } = await api.get<EpisodeRequest[]>("episodes", {
+    params: { _limit: 12, _sort: "published_at", _order: "desc" },
+  });
+
+  const episodes = data.map((episode) => ({
+    id: episode.id,
+    title: episode.title,
+    thumbnail: episode.thumbnail,
+    members: episode.members,
+    publishedAt: formatDate(episode.published_at, "d MMM yy"),
+    duration: Number(episode.file.duration),
+    durationAsString: convertDurationToTimeString(episode.file.duration),
+    description: episode.description,
+    url: episode.file.url,
+  }));
+
+  const latestEpisodes = episodes.slice(0, 2);
+  const allEpisodes = episodes.slice(2, episodes.length);
+
+  return {
+    props: {
+      allEpisodes,
+      latestEpisodes,
+    },
+    revalidate: 60 * 60 * 8,
+  };
+};
