@@ -1,18 +1,16 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import { EpisodeRequest, EpisodeResponse } from "../../models";
-import api from "../../services/api";
-import { convertDurationToTimeString, formatDate } from "../../utils";
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./episodes.module.scss";
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { EpisodeRequest, EpisodeResponse } from '../../models';
+import api from '../../services/api';
+import { convertDurationToTimeString, formatDate } from '../../utils';
+import styles from './episodes.module.scss';
 
 type EpisodesProps = {
   episode: EpisodeResponse;
 };
 
 export default function Episodes({ episode }: EpisodesProps) {
-  Link;
-
   return (
     <div className={styles.episode}>
       <div className={styles.thumbnailContainer}>
@@ -27,7 +25,7 @@ export default function Episodes({ episode }: EpisodesProps) {
           height={160}
           src={episode.thumbnail}
           objectFit="cover"
-        ></Image>
+        />
 
         <button type="button">
           <img src="/play.svg" alt="Tocar episódio" />
@@ -44,19 +42,17 @@ export default function Episodes({ episode }: EpisodesProps) {
       <div
         className={styles.description}
         dangerouslySetInnerHTML={{ __html: episode.description }}
-      ></div>
+      />
     </div>
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
-};
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+});
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async context => {
   const { slug } = context.params;
 
   const { data } = await api.get<EpisodeRequest>(`/episodes/${slug}`);
@@ -66,7 +62,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     title: data.title,
     thumbnail: data.thumbnail,
     members: data.members,
-    publishedAt: formatDate(data.published_at, "d MMM yy"),
+    publishedAt: formatDate(data.published_at, 'd MMM yy'),
     duration: Number(data.file.duration),
     durationAsString: convertDurationToTimeString(data.file.duration),
     description: data.description,

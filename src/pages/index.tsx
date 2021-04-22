@@ -1,10 +1,10 @@
-import { GetStaticProps } from "next";
-import api from "../services/api";
-import { convertDurationToTimeString, formatDate } from "../utils";
-import { EpisodeRequest, EpisodeResponse } from "../models";
-import Image from "next/image";
-import styles from "./home.module.scss";
-import Link from "next/link";
+import { GetStaticProps } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import api from '../services/api';
+import { convertDurationToTimeString, formatDate } from '../utils';
+import { EpisodeRequest, EpisodeResponse } from '../models';
+import styles from './home.module.scss';
 
 type HomeProps = {
   allEpisodes: EpisodeResponse[];
@@ -18,7 +18,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <h2>Últimos lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map((episode) => (
+          {latestEpisodes.map(episode => (
             <li key={episode.id}>
               <Image
                 width={192}
@@ -52,16 +52,16 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <table cellSpacing={0}>
           <thead>
             <tr>
-              <th></th>
+              <th />
               <th>Podcast</th>
               <th>Integrantes</th>
               <th>Data</th>
               <th>Duração</th>
-              <th></th>
+              <th />
             </tr>
           </thead>
           <tbody>
-            {allEpisodes.map((episode) => (
+            {allEpisodes.map(episode => (
               <tr key={episode.id}>
                 <td>
                   <Image
@@ -70,7 +70,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                     src={episode.thumbnail}
                     alt={episode.title}
                     objectFit="cover"
-                  ></Image>
+                  />
                 </td>
                 <td>
                   <Link href={`/episodes/${episode.id}`}>
@@ -95,16 +95,16 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get<EpisodeRequest[]>("episodes", {
-    params: { _limit: 12, _sort: "published_at", _order: "desc" },
+  const { data } = await api.get<EpisodeRequest[]>('episodes', {
+    params: { _limit: 12, _sort: 'published_at', _order: 'desc' },
   });
 
-  const episodes = data.map((episode) => ({
+  const episodes = data.map(episode => ({
     id: episode.id,
     title: episode.title,
     thumbnail: episode.thumbnail,
     members: episode.members,
-    publishedAt: formatDate(episode.published_at, "d MMM yy"),
+    publishedAt: formatDate(episode.published_at, 'd MMM yy'),
     duration: Number(episode.file.duration),
     durationAsString: convertDurationToTimeString(episode.file.duration),
     description: episode.description,

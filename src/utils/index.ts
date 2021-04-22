@@ -1,2 +1,2 @@
-export * from "./convertDurationToTimeString";
-export * from "./formatDate";
+export * from './convertDurationToTimeString';
+export * from './formatDate';

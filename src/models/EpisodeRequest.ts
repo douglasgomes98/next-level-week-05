@@ -1,3 +1,10 @@
+/* eslint-disable camelcase */
+type File = {
+  url: string;
+  type: string;
+  duration: number;
+};
+
 export type EpisodeRequest = {
   id: string;
   title: string;
@@ -6,10 +13,4 @@ export type EpisodeRequest = {
   thumbnail: string;
   description: string;
   file: File;
-};
-
-type File = {
-  url: string;
-  type: string;
-  duration: number;
 };

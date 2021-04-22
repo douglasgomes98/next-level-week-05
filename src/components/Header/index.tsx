@@ -1,8 +1,8 @@
-import styles from "./styles.module.scss";
-import { formatDate } from "../../utils";
+import styles from './styles.module.scss';
+import { formatDate } from '../../utils';
 
 function Header() {
-  const currentDate = formatDate(new Date(), "EEEEEE, d MMMM");
+  const currentDate = formatDate(new Date(), 'EEEEEE, d MMMM');
 
   return (
     <header className={styles.headerContainer}>

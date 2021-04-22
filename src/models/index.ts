@@ -1,2 +1,2 @@
-export * from "./EpisodeResponse";
-export * from "./EpisodeRequest";
+export * from './EpisodeResponse';
+export * from './EpisodeRequest';
