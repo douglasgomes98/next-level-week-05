@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="Podcastr" title="Podcastr" src=".github/podcastr.svg" />
+    <img alt="Podcastr" title="Podcastr" src="./public/logo.svg" />
 </h1>
 
 <p align="center">
@@ -29,7 +29,7 @@ This project was developed using the following technologies:
 Clone the project and access the folder
 
 ```bash
-$ git clone https://github.com/guilhermecapitao/podcastr.git && cd podcastr
+$ git clone git@github.com:douglasgomes98/nlw05-reactjs.git && cd nlw05-reactjs
 ```
 
 Follow the steps below
@@ -43,7 +43,7 @@ $ yarn dev
 
 ## 💻 Project
 
-[Podcastr](https://podcastr-nlw.vercel.app/) to bring you even closer to the best technology podcasts! 💜 
+[Podcastr](**https://podcastr-nlw.vercel.app/) to bring you even closer to the best technology podcasts! 💜 
 
 This is a project developed during the **[Next Level Week](https://nextlevelweek.com/)**, presented by **[@Rocketseat](https://github.com/Rocketseat)** during April 19-25, 2021.
 
