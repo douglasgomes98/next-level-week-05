@@ -13,7 +13,7 @@
 <br>
 
 <p align="center">
-  <img alt="Moveit" src=".github/icon.svg" width="160px">
+  <img alt="Moveit" src="https://i.imgur.com/kJK05lO.png">
 </p>
 
 ## 🧪 Technologies
