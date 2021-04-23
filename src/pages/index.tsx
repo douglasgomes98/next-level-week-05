@@ -2,11 +2,11 @@ import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
-import api from '../services/api';
 import { convertDurationToTimeString, formatDate } from '../utils';
 import { EpisodeRequest, EpisodeResponse } from '../models';
 import styles from './home.module.scss';
 import { usePlayer } from '../contexts/PlayerContext';
+import { getFirebaseService } from '../services/firebase';
 
 type HomeProps = {
   allEpisodes: EpisodeResponse[];
@@ -112,8 +112,15 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get<EpisodeRequest[]>('episodes', {
-    params: { _limit: 12, _sort: 'published_at', _order: 'desc' },
+  const data: EpisodeRequest[] = [];
+
+  const database = getFirebaseService().database().ref('episodes');
+
+  const snapshots = await database.once('value');
+
+  snapshots.forEach(snapshot => {
+    const item = snapshot.val();
+    data.push(item);
   });
 
   const episodes = data.map(episode => ({

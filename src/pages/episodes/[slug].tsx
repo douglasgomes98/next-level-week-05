@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { usePlayer } from '../../contexts/PlayerContext';
 import { EpisodeRequest, EpisodeResponse } from '../../models';
-import api from '../../services/api';
+import { getFirebaseService } from '../../services/firebase';
 import { convertDurationToTimeString, formatDate } from '../../utils';
 import styles from './episodes.module.scss';
 
@@ -62,7 +62,18 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 export const getStaticProps: GetStaticProps = async context => {
   const { slug } = context.params;
 
-  const { data } = await api.get<EpisodeRequest>(`/episodes/${slug}`);
+  const episodes: EpisodeRequest[] = [];
+
+  const database = getFirebaseService().database().ref('episodes');
+
+  const snapshots = await database.once('value');
+
+  snapshots.forEach(snapshot => {
+    const item = snapshot.val();
+    episodes.push(item);
+  });
+
+  const data = episodes.find(item => item.id === slug);
 
   const episode = {
     id: data.id,
