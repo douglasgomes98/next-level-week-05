@@ -17,7 +17,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "prettier", "react-hooks"],
   "rules": {
     "prettier/prettier": "off",
     "space-before-function-paren": "off",
@@ -32,6 +32,11 @@
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/control-has-associated-label": "off",
     "react/jsx-props-no-spreading": "warn",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "jsx-a11y/media-has-caption": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-curly-newline": "off"
   }
 }
